@@ -10,6 +10,8 @@
 // @exclude      *://pbs.twimg.com/media/*?*name=orig*
 // @run-at       document-start
 // @grant        none
+// @updateURL    https://raw.githubusercontent.com/prometheus-systems-tech/Redirect-twimg-to-orig/refs/heads/main/redirector.js
+// @downloadURL  https://raw.githubusercontent.com/prometheus-systems-tech/Redirect-twimg-to-orig/refs/heads/main/redirector.js
 // ==/UserScript==
 
 (function () {
