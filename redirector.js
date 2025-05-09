@@ -1,26 +1,28 @@
 // ==UserScript==
-// @name        Redirect twimg to :orig
-// @namespace   https://prometheus-systems.co.za/
-// @version     0.0.1
-// @description Redirect twimg to :orig
-// @author      rwdcameron
-// @license     MIT
-// @supportURL  mailto:rwd.cameron@prometheus-systems.co.za?Subject=twimg-resizer
-// @match       *://pbs.twimg.com/media/*
-// @exclude     *://pbs.twimg.com/media/*name=orig
-// @run-at      document-start
-// @grant       none
+// @name         Redirect twimg to :orig
+// @namespace    https://prometheus-systems.co.za/
+// @version      0.0.5
+// @description  Redirect twimg image URLs to enforce name=orig for full-resolution images
+// @author       rwdcameron
+// @license      GPLv2
+// @supportURL   mailto://rwd.cameron@prometheus-systems.co.za?Subject=twimg-resizer
+// @match        *://pbs.twimg.com/media/*
+// @exclude      *://pbs.twimg.com/media/*?*name=orig*
+// @run-at       document-start
+// @grant        none
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
 
-    if (window.location.hostname === 'pbs.twimg.com') {
-        var url = window.location.href;
-        url = url.replace(/\?format=/, ".");
-        url = url.replace(/\&name=/, ":");
-        url = url.replace(/\.(?=[^.]*$)/, "?format=");
-        url = url.replace(/(:large|:medium|:small|:orig|:thumb|:360x360|:900x900)/, "");
-        window.location.replace(url + "&name=orig");
-    }
+    const url = new URL(window.location.href);
+
+    // Do nothing if name=orig is already in the URL
+    if (url.searchParams.get('name') === 'orig') return;
+
+    // Replace existing name=... with name=orig or add it if not present
+    url.searchParams.set('name', 'orig');
+
+    // Redirect to the corrected URL
+    window.location.replace(url.toString());
 })();
