@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Redirect twimg to :orig
 // @namespace    https://prometheus-systems.co.za/
-// @version      0.0.5
+// @version      0.0.6
 // @description  Redirect twimg image URLs to enforce name=orig for full-resolution images
 // @author       rwdcameron
 // @license      GPLv2
@@ -17,14 +17,14 @@
 (function () {
     'use strict';
 
-    const url = new URL(window.location.href);
+    const params = new URLSearchParams(window.location.search);
 
-    // Do nothing if name=orig is already in the URL
-    if (url.searchParams.get('name') === 'orig') return;
+    // If the 'name' variable is already set to 'orig' do nothing
+    if (params.get('name') === 'orig') return;
 
-    // Replace existing name=... with name=orig or add it if not present
-    url.searchParams.set('name', 'orig');
+    // Set the 'name' variable to 'orig'
+    params.set('name', 'orig');
 
-    // Redirect to the corrected URL
-    window.location.replace(url.toString());
+    const newUrl = window.location.origin + window.location.pathname + '?' + params.toString() + window.location.hash;
+    window.location.replace(newUrl);
 })();
